@@ -36,6 +36,7 @@ Rails.application.routes.draw do
     resources :developers, except: :destroy do
       resources :messages, only: %i[new create], controller: :cold_messages
       resources :public_profiles, only: :new
+      resource :saved_developers, only: [:create, :destroy]
     end
 
     namespace :developers do
@@ -66,6 +67,7 @@ Rails.application.routes.draw do
 
     namespace :users do
       resource :suspended, only: :show, controller: :suspended
+      resources :saved_developers, only: [:index]
     end
 
     root to: "home#show"

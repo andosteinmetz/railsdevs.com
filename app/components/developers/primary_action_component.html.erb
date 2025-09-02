@@ -26,3 +26,11 @@
     <%= t("developers.show.hire") %>
   <% end %>
 <% end %>
+
+<% if @user.present? && !owner? %>
+  <% if @user.saved_developer_profiles.include?(@developer) %>
+    <%= button_to "Unsave", developer_saved_developers_path(@developer), method: :delete, class: "shrink-0 mt-4 md:mt-0 inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500" %>
+  <% else %>
+    <%= button_to "Save", developer_saved_developers_path(@developer), method: :post, class: "shrink-0 mt-4 md:mt-0 inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500" %>
+  <% end %>
+<% end %>
