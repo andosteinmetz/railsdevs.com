@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_19_080300) do
+ActiveRecord::Schema[7.0].define(version: 2025_09_02_171715) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
@@ -428,6 +428,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_19_080300) do
     t.index ["developer_id"], name: "index_role_types_on_developer_id", unique: true
   end
 
+  create_table "saved_developers", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "developer_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["developer_id"], name: "index_saved_developers_on_developer_id"
+    t.index ["user_id", "developer_id"], name: "index_saved_developers_on_user_id_and_developer_id", unique: true
+    t.index ["user_id"], name: "index_saved_developers_on_user_id"
+  end
+
   create_table "specialties", force: :cascade do |t|
     t.string "name", null: false
     t.integer "developers_count", default: 0, null: false
@@ -482,6 +492,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_19_080300) do
   add_foreign_key "referrals", "users", column: "referred_user_id"
   add_foreign_key "role_levels", "developers"
   add_foreign_key "role_types", "developers"
+  add_foreign_key "saved_developers", "developers"
+  add_foreign_key "saved_developers", "users"
   add_foreign_key "specialty_tags", "developers"
   add_foreign_key "specialty_tags", "specialties"
 end

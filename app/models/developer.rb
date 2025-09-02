@@ -26,6 +26,8 @@ class Developer < ApplicationRecord
   has_many :conversations, -> { visible }
   has_many :messages, -> { where(sender_type: Developer.name) }, through: :conversations
   has_many :celebration_package_requests, class_name: "Developers::CelebrationPackageRequest", dependent: :destroy
+  has_many :saved_developers, dependent: :destroy
+  has_many :saved_by_users, through: :saved_developers, source: :user
   has_one :location, dependent: :destroy, autosave: true
   has_one :role_level, dependent: :destroy, autosave: true
   has_one :role_type, dependent: :destroy, autosave: true
