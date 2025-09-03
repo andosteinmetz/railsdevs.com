@@ -67,8 +67,9 @@ Rails.application.routes.draw do
 
     namespace :users do
       resource :suspended, only: :show, controller: :suspended
-      resources :saved_developers, only: [:index]
     end
+
+    resources :saved_developers, only: [:index]
 
     root to: "home#show"
   end

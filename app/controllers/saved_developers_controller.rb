@@ -15,5 +15,6 @@ class SavedDevelopersController < ApplicationController
 
   def index
     @saved_developers = current_user.saved_developer_profiles
+    ap @saved_developers
   end
 end
