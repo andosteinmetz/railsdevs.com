@@ -1,0 +1,16 @@
+<ul>
+<% @saved_developers.each do |profile| %>
+  <li class="flex py-4 px-8 gap-x-6">
+    <div class="flex-shrink-0">
+        <%= render AvatarComponent.new(avatarable: profile, variant: :medium) %>
+    </div>
+    <div>
+      <h3 class="font-medium text-xl"><%= profile.name %></h3>
+      <p><%= profile.bio %>
+    </div>
+    </div>
+</li>
+<% end %>
+</ul>
+
+<%= render Developers::CardComponent.with_collection(@saved_developers, highlight_featured: true) %>
