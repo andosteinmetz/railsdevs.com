@@ -7,7 +7,7 @@ class DevelopersController < ApplicationController
     @query = DeveloperQuery.new(permitted_attributes([:developers, :query]).merge(user: current_user))
     ap @query.records
     
-    records_filtered = @query.records.select { |item| item.name.include?("u") }
+    @records_filtered = @query.records.select { |item| item.name.include?("u") }
 
     @meta = Developers::Meta.new(query: @query, count: @developers_count)
     Analytics::SearchQuery.create!(permitted_attributes([:developers, :query]))
