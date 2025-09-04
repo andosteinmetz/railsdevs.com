@@ -19,6 +19,9 @@
         <%= link_to t(".learn_more"), about_path, class: "w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-gray-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10" %>
       </div>
     </div>
+    <div>
+      <img class="blueberries" src="<%= asset_path('Heres-Why-Blueberries-Appear-to-Be-Blue-According-to-Science-FT-BLOG0324-c3b02b5496ae4fd5b4fe9c2ba395d4ae.jpg') %>" style="display: block; width: 100px; height: 100px; margin: 0 auto" />
+    </div>
   </div>
 </div>
 
@@ -40,3 +43,11 @@
     <% end %>
   </div>
 </div>
+
+<style>
+  @media (max-width: 840px){
+    .blueberries {
+      border: 2px solid #00ff00;
+    }
+  }
+</style>
