@@ -21,6 +21,9 @@ module NavBar
       links << Link.new(t(".home"), root_path) if helpers.turbo_native_app?
       links << Link.new(t(".developers"), developers_path)
       links << Link.new(t(".pricing"), pricing_path)
+      if user.present?
+        links << Link.new("My Saved Developers", saved_developers_path)
+      end
       links
     end
   end
