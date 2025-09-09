@@ -74,6 +74,7 @@ class Developer < ApplicationRecord
   scope :featured, -> { where("featured_at >= ?", FEATURE_LENGTH.ago).order(featured_at: :desc) }
   scope :newest_first, -> { order(created_at: :desc) }
   scope :recently_updated_first, -> { order(updated_at: :desc) }
+  scope :oldest_first, -> { order(created_at: :asc) }
   scope :product_announcement_notifications, -> { where(product_announcement_notifications: true) }
   scope :profile_reminder_notifications, -> { where(profile_reminder_notifications: true) }
   scope :visible, -> { where.not(search_status: :invisible).or(where(search_status: nil)) }

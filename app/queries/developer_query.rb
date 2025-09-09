@@ -42,7 +42,15 @@ class DeveloperQuery
   end
 
   def sort
-    @sort.to_s.downcase.to_sym == :newest ? :newest : :freshest
+    # @sort.to_s.downcase.to_sym == :newest ? :newest : :freshest
+    case @sort.to_s.downcase.to_sym
+    when :newest
+      :newest
+    when :oldest
+      :oldest
+    else
+      :freshest  
+    end
   end
 
   def countries
@@ -138,6 +146,8 @@ class DeveloperQuery
   def sort_records
     if sort == :freshest
       @_records.merge!(Developer.recently_updated_first)
+    elsif sort == :oldest
+      @_records.merge!(Developer.oldest_first)
     else
       @_records.merge!(Developer.newest_first)
     end
