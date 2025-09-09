@@ -50,10 +50,10 @@
       <%= render Developers::CountComponent.new(count: @query.pagy.count, total: @developers_count) %>
 
       <% if @query.records.any? %>
-        <%= render Developers::CardComponent.with_collection(@records_filtered, highlight_featured: true) %>
+        <%= render Developers::CardComponent.with_collection(@query.records, highlight_featured: true) %>
 
         <% if @paywall_results %>
-          <%= render Developers::CardComponent.with_collection(@records_filtered) %>
+          <%= render Developers::CardComponent.with_collection(@query.records) %>
           <div class="relative">
              <%= render Developers::CardComponent.with_collection(Developers::PaywalledSearchResults.random_developers) %>
              <%= render SubscriptionCTAComponent.new(user: current_user) %>
@@ -65,7 +65,7 @@
                 <%= render LoadingComponent.new %>
               </div>
             <% end %>
-            <%= render Developers::CardComponent.with_collection(@records_filtered) %>
+            <%= render Developers::CardComponent.with_collection(@query.records) %>
           <% end %>
         <% end %>
       <% else %>

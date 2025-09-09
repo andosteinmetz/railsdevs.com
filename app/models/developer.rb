@@ -88,6 +88,10 @@ class Developer < ApplicationRecord
     where(where_sql, Array.wrap(specialty_ids))
   }
 
+  scope :with_letter_in_name, -> (letter) {
+    where("name ILIKE ?", "%#{letter}%")
+  }
+
   def visible?
     !invisible?
   end

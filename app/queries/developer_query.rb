@@ -18,6 +18,7 @@ class DeveloperQuery
     @include_not_interested = options.delete(:include_not_interested)
     @search_query = options.delete(:search_query)
     @user = options.delete(:user)
+    @letter_in_name = options.delete(:letter_in_name)
   end
 
   def filters
@@ -89,6 +90,7 @@ class DeveloperQuery
     search_query_filter_records
     badges_filter_records
     specialty_filter_records
+    letter_in_name_filter_records
     @pagy, @records = build_pagy(@_records, items: items_per_page)
   end
 
@@ -124,6 +126,12 @@ class DeveloperQuery
   def specialty_filter_records
     if specialty_ids.any?
       @_records.merge!(Developer.with_specialty_ids(specialty_ids))
+    end
+  end
+
+  def letter_in_name_filter_records
+    if @letter_in_name.present?
+      @_records.merge!(Developer.with_letter_in_name("u"))
     end
   end
 

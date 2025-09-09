@@ -4,10 +4,14 @@ class DevelopersController < ApplicationController
 
   def index
     @developers_count = SignificantFigure.new(Developer.actively_looking_or_open.count).rounded
-    @query = DeveloperQuery.new(permitted_attributes([:developers, :query]).merge(user: current_user))
-    ap @query.records
-    
+
+    # Hardcoded filter for developers with "u" in their name
+    letter_filter = { letter_in_name: "u" }
+    @query = DeveloperQuery.new(permitted_attributes([:developers, :query]).merge(user: current_user).merge(letter_filter))
+
     @records_filtered = @query.records.select { |item| item.name.include?("u") }
+
+    @developers_with_u = @query.records.with_letter_in_name("u")
 
     @meta = Developers::Meta.new(query: @query, count: @developers_count)
     Analytics::SearchQuery.create!(permitted_attributes([:developers, :query]))
