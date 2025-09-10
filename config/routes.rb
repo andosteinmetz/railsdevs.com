@@ -33,6 +33,8 @@ Rails.application.routes.draw do
       resources :messages, only: :create
     end
 
+    get "/savers", to: "developers#savers", as: :developer_savers
+
     resources :developers, except: :destroy do
       resources :messages, only: %i[new create], controller: :cold_messages
       resources :public_profiles, only: :new
