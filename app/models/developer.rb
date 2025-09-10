@@ -93,6 +93,10 @@ class Developer < ApplicationRecord
     where("name ILIKE ?", "%#{letter}%")
   }
 
+  scope :hero_search, -> (query) {
+    where("hero ILIKE ?", "%#{query}%")
+  }
+
   def visible?
     !invisible?
   end

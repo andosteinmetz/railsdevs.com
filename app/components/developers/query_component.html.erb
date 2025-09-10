@@ -140,6 +140,13 @@
       </div>
     </fieldset>
 
+    <fieldset>
+      <div class="border-t border-gray-200 py-6">
+        <%= form.label :hero_search, "Hero Search", class: "block text-sm font-medium text-gray-700 py-4" %>
+        <%= form.text_field :hero_search, value: hero_query, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500" %>
+      </div>
+    </fieldset>
+
     <fieldset data-controller="toggle accessibility" data-toggle-visibility-class="hidden">
       <div class="border-t border-gray-200 py-6">
         <legend class="-mx-2 -my-3 flow-root">

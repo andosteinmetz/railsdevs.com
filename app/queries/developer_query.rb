@@ -19,6 +19,7 @@ class DeveloperQuery
     @search_query = options.delete(:search_query)
     @user = options.delete(:user)
     @letter_in_name = options.delete(:letter_in_name)
+    @hero_search = options.delete(:hero_search)
   end
 
   def filters
@@ -81,6 +82,10 @@ class DeveloperQuery
     @search_query.to_s.strip
   end
 
+  def hero_query
+    @hero_search.to_s.strip
+  end
+
   def include_not_interested
     ActiveModel::Type::Boolean.new.cast(@include_not_interested)
   end
@@ -99,6 +104,7 @@ class DeveloperQuery
     badges_filter_records
     specialty_filter_records
     letter_in_name_filter_records
+    hero_query_filter_records
     @pagy, @records = build_pagy(@_records, items: items_per_page)
   end
 
@@ -177,6 +183,10 @@ class DeveloperQuery
 
   def search_query_filter_records
     @_records.merge!(Developer.filter_by_search_query(search_query)) unless search_query.empty?
+  end
+
+  def hero_query_filter_records
+    @_records.merge!(Developer.hero_search(hero_query)) unless hero_query.empty?
   end
 
   # Needed for #pagy (aliased to #build_pagy) helper.
