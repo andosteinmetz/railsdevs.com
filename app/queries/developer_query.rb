@@ -18,6 +18,8 @@ class DeveloperQuery
     @include_not_interested = options.delete(:include_not_interested)
     @search_query = options.delete(:search_query)
     @user = options.delete(:user)
+    @letter_in_name = options.delete(:letter_in_name)
+    @hero_search = options.delete(:hero_search)
   end
 
   def filters
@@ -41,7 +43,15 @@ class DeveloperQuery
   end
 
   def sort
-    @sort.to_s.downcase.to_sym == :newest ? :newest : :freshest
+    # @sort.to_s.downcase.to_sym == :newest ? :newest : :freshest
+    case @sort.to_s.downcase.to_sym
+    when :newest
+      :newest
+    when :oldest
+      :oldest
+    else
+      :freshest  
+    end
   end
 
   def countries
@@ -72,6 +82,10 @@ class DeveloperQuery
     @search_query.to_s.strip
   end
 
+  def hero_query
+    @hero_search.to_s.strip
+  end
+
   def include_not_interested
     ActiveModel::Type::Boolean.new.cast(@include_not_interested)
   end
@@ -89,6 +103,8 @@ class DeveloperQuery
     search_query_filter_records
     badges_filter_records
     specialty_filter_records
+    letter_in_name_filter_records
+    hero_query_filter_records
     @pagy, @records = build_pagy(@_records, items: items_per_page)
   end
 
@@ -127,9 +143,17 @@ class DeveloperQuery
     end
   end
 
+  def letter_in_name_filter_records
+    if @letter_in_name.present?
+      @_records.merge!(Developer.with_letter_in_name("u"))
+    end
+  end
+
   def sort_records
     if sort == :freshest
       @_records.merge!(Developer.recently_updated_first)
+    elsif sort == :oldest
+      @_records.merge!(Developer.oldest_first)
     else
       @_records.merge!(Developer.newest_first)
     end
@@ -159,6 +183,10 @@ class DeveloperQuery
 
   def search_query_filter_records
     @_records.merge!(Developer.filter_by_search_query(search_query)) unless search_query.empty?
+  end
+
+  def hero_query_filter_records
+    @_records.merge!(Developer.hero_search(hero_query)) unless hero_query.empty?
   end
 
   # Needed for #pagy (aliased to #build_pagy) helper.

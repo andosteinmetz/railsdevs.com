@@ -15,11 +15,12 @@ module Developers
         :page,
         :include_not_interested,
         :sort,
+        :hero_search,
         role_levels: [],
         role_types: [],
         badges: [],
         utc_offsets: [],
-        countries: []
+        countries: [],
       ]
     end
 
