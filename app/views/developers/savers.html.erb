@@ -1,0 +1,11 @@
+<% @savers.each do |user| %>
+    <% if user.developer %>
+        <%= render Developers::CardComponent.new(developer: user.developer) %>
+    <% elsif user.business %>
+        <div>
+        <%= link_to user.business.company, business_path(user.business) %>
+        </div>
+    <% else %>
+        No profile available
+    <% end %>
+<% end %>

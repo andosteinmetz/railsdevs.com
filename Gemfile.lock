@@ -86,6 +86,7 @@ GEM
       gemoji (~> 4.0.0.rc2)
       redcarpet (~> 3.5)
       rinku (~> 2.0)
+    awesome_print (1.9.2)
     aws-eventstream (1.2.0)
     aws-partitions (1.519.0)
     aws-sdk-core (3.121.3)
@@ -484,6 +485,7 @@ PLATFORMS
 DEPENDENCIES
   apnotic
   auto_html
+  awesome_print (~> 1.9)
   aws-sdk-s3
   capybara
   classy-yaml

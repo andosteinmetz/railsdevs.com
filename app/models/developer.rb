@@ -26,6 +26,8 @@ class Developer < ApplicationRecord
   has_many :conversations, -> { visible }
   has_many :messages, -> { where(sender_type: Developer.name) }, through: :conversations
   has_many :celebration_package_requests, class_name: "Developers::CelebrationPackageRequest", dependent: :destroy
+  has_many :saved_developers, dependent: :destroy
+  has_many :saved_by_users, through: :saved_developers, source: :user
   has_one :location, dependent: :destroy, autosave: true
   has_one :role_level, dependent: :destroy, autosave: true
   has_one :role_type, dependent: :destroy, autosave: true
@@ -72,6 +74,7 @@ class Developer < ApplicationRecord
   scope :featured, -> { where("featured_at >= ?", FEATURE_LENGTH.ago).order(featured_at: :desc) }
   scope :newest_first, -> { order(created_at: :desc) }
   scope :recently_updated_first, -> { order(updated_at: :desc) }
+  scope :oldest_first, -> { order(created_at: :asc) }
   scope :product_announcement_notifications, -> { where(product_announcement_notifications: true) }
   scope :profile_reminder_notifications, -> { where(profile_reminder_notifications: true) }
   scope :visible, -> { where.not(search_status: :invisible).or(where(search_status: nil)) }
@@ -84,6 +87,14 @@ class Developer < ApplicationRecord
       )
     SQL
     where(where_sql, Array.wrap(specialty_ids))
+  }
+
+  scope :with_letter_in_name, -> (letter) {
+    where("name ILIKE ?", "%#{letter}%")
+  }
+
+  scope :hero_search, -> (query) {
+    where("hero ILIKE ?", "%#{query}%")
   }
 
   def visible?

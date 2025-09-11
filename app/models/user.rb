@@ -14,6 +14,8 @@ class User < ApplicationRecord
   has_many :hiring_agreement_signatures, class_name: "HiringAgreements::Signature", dependent: :destroy
   has_many :notification_tokens, dependent: :destroy
   has_many :notifications, as: :recipient, dependent: :destroy
+  has_many :saved_developers, class_name: "SavedDeveloper", dependent: :destroy
+  has_many :saved_developer_profiles, through: :saved_developers, source: :developer
   has_one :business, dependent: :destroy
   has_one :developer, dependent: :destroy
 

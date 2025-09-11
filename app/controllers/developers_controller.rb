@@ -4,13 +4,29 @@ class DevelopersController < ApplicationController
 
   def index
     @developers_count = SignificantFigure.new(Developer.actively_looking_or_open.count).rounded
+
+    # Hardcoded filter for developers with "u" in their name
+    letter_filter = { letter_in_name: "u" }
     @query = DeveloperQuery.new(permitted_attributes([:developers, :query]).merge(user: current_user))
+
+    @records_filtered = @query.records.select { |item| item.name.include?("u") }
+
+    @developers_with_u = @query.records.with_letter_in_name("u")
+
     @meta = Developers::Meta.new(query: @query, count: @developers_count)
     Analytics::SearchQuery.create!(permitted_attributes([:developers, :query]))
 
     paywall = Developers::PaywalledSearchResults.new(user: current_user, page: @query.pagy.page)
     redirect_to developers_path if paywall.unauthorized_page?
     @paywall_results = paywall.show_paywall?(@query.pagy.count)
+  end
+
+  def savers
+    @developer = current_user.developer
+    if (@developer.nil?)
+      return redirect_to developers_path, alert: "No developer profile found"
+    end
+    @savers = @developer.saved_by_users
   end
 
   def new
